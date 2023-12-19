@@ -1,50 +1,56 @@
-import { sample1 as data } from "./data.js";
+import { data as puzzleInput } from "./data.js";
 
-function extraireChiffresNonProximite(matrice) {
-  const resultats = [];
+// TODO: could be simplified with a regex
+const proximitySymbols = ["+", "*", "%", "#", "/", "@", "$", "-", "&", "="];
 
-  // Fonction pour vérifier si un caractère est un chiffre et s'il n'est pas à proximité d'un autre symbole
-  function estChiffreIsolé(i, j) {
-    const symbolesProximités = ["*", "#", "+", "$"]; // Symboles à proximité
+function checkForProximitySum(engine) {
+  let sum = 0;
 
-    // Vérifier les 8 directions (haut, bas, gauche, droite, et les diagonales)
-    for (let di = -1; di <= 1; di++) {
-      for (let dj = -1; dj <= 1; dj++) {
-        const ni = i + di;
-        const nj = j + dj;
+  function getGearValue(line, raw) {
+    for (let deltaX = -1; deltaX <= 1; deltaX++) {
+      for (let deltaY = -1; deltaY <= 1; deltaY++) {
+        const newX = line + deltaX;
+        const newY = raw + deltaY;
+
+        if (deltaX === 0 && deltaY === 0) {
+          continue; // we don't need to check current symbol
+        }
 
         // Vérifier si le caractère est hors des limites de la matrice
         if (
-          ni >= 0 &&
-          ni < matrice.length &&
-          nj >= 0 &&
-          nj < matrice[ni].length
+          newX >= 0 &&
+          newX < engine.length &&
+          newY >= 0 &&
+          newY < engine[line].length
         ) {
-          const caractere = matrice[ni][nj];
+          const caractere = engine[newX][newY];
 
           // Vérifier si le caractère est un symbole à proximité
-          if (symbolesProximités.includes(caractere)) {
+          if (caractere.match(/\d/)) {
+            console.log("aaaa");
             return false;
           }
         }
       }
     }
-
-    return !isNaN(parseInt(matrice[i][j], 10)); // Vérifier si le caractère est un chiffre
+    return true;
   }
 
   // Parcourir la matrice
-  for (let i = 0; i < matrice.length; i++) {
-    for (let j = 0; j < matrice[i].length; j++) {
-      if (estChiffreIsolé(i, j)) {
-        resultats.push(matrice[i][j]);
+  const rawLength = engine[0].length;
+  for (let line = 0; line < engine.length; line++) {
+    for (let raw = 0; raw < rawLength; raw++) {
+      const current = engine[line][raw];
+      if (current === "*") {
+        const gearValue = getGearValue(line, raw);
+        sum += gearValue;
       }
     }
   }
 
-  return resultats;
+  return sum;
 }
 
-// Appeler la fonction avec votre matrice
-const chiffresNonProximite = extraireChiffresNonProximite(data);
-console.log("Chiffres non à proximité :", chiffresNonProximite);
+const sum = checkForProximitySum(puzzleInput);
+
+console.log("total :", sum);
