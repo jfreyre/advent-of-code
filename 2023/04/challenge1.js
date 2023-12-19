@@ -10,6 +10,7 @@ data.forEach((line) => {
     .trim()
     .split(" ")
     .map((v) => +v);
+
   const winningNumbers = lineSplitted.groups.winner
     .trim()
     .split(" ")
