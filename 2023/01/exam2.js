@@ -14,6 +14,7 @@ const numericWordMap = {
 
 function replaceNumericWords(phrase) {
   const regex = new RegExp(Object.keys(numericWordMap).join("|"), "g");
+
   const result = phrase.replace(
     regex,
     (match) => numericWordMap[match.toLowerCase()],

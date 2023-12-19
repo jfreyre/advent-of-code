@@ -4,13 +4,13 @@ let regex = /(?<card>(\s?[1-9]\d?\s?){5}) \| (?<winner>(\s?[1-9]\d?\s?){8})/;
 
 let sum = 0;
 data.forEach((line) => {
-  let m = regex.exec(line);
+  let lineSplitted = regex.exec(line);
 
-  const card = m.groups.card
+  const card = lineSplitted.groups.card
     .trim()
     .split(" ")
     .map((v) => +v);
-  const winningNumbers = m.groups.winner
+  const winningNumbers = lineSplitted.groups.winner
     .trim()
     .split(" ")
     .filter((v) => !!v)
@@ -27,8 +27,10 @@ data.forEach((line) => {
   sum += score;
 
   if (score > 0) {
-    console.log(card, "--> ", winningNumbers, chiffresCommuns, score);
+    console.log(chiffresCommuns, score, sum);
   }
 });
+
+// c'est pas 138
 
 console.log(sum);
