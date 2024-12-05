@@ -1,1 +1,1 @@
-import "./2024/05/exam2.js";
+import "./2015/01/exam1.js";
