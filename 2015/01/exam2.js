@@ -1,15 +1,11 @@
-import { sample as data } from "./data.js";
+import { puzzle as data } from "./data.js";
 
-function sortData(data) {
-  var left = data.map((d) => d[0]);
-  var right = data.map((d) => d[1]);
+let level = 0;
 
-  let sum = 0;
-  left.forEach((element, index) => {
-    var t = right.filter((v, i) => v === element).length;
-    sum += element * t;
-  });
-  console.log(sum);
+for (var i = 0; i < data.length; i++) {
+  level += data[i] === "(" ? 1 : -1;
+  if (level == -1) {
+    console.log(`hey! i've been in the basement at position `, i + 1);
+    continue;
+  }
 }
-
-sortData(data);
